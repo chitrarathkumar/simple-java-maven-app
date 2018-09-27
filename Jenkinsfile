@@ -1,5 +1,5 @@
-/*node {
-    docker.withServer('tcp://10.0.3.87:2376'){
+node {
+    docker.withServer('tcp://10.0.3.134:2376'){
         stage('Back-end') {
             docker.image('maven:3-alpine').inside {
                 sh 'mvn --version'
@@ -11,8 +11,8 @@
             }
         }
     }
-}*/
-pipeline {
+}
+/*pipeline {
     agent none
     stages {
         stage('Back-end') {
@@ -33,3 +33,4 @@ pipeline {
         }
     }
 }
+*/
