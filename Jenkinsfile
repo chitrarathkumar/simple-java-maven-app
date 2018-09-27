@@ -1,5 +1,5 @@
 node {
-    docker.withServer('tcp://10.0.3.134:2376'){
+    docker.withServer('tcp://10.0.3.134:2375'){
         stage('Back-end') {
             docker.image('maven:3-alpine').inside {
                 sh 'mvn --version'
