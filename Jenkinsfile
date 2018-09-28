@@ -12,9 +12,9 @@ node {
                   //  }
                 //}
             }
-            //stage('Deliver') {
-              //  sh './jenkins/scripts/deliver.sh' 
-            //}
+            stage('Deliver') {
+                sh './jenkins/scripts/deliver.sh' 
+            }
         }
     }
 }
