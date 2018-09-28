@@ -1,8 +1,9 @@
-/*node {
+node {
     docker.withServer('tcp://10.0.3.134:2375'){
         stage('Back-end') {
-            docker.image('maven:3-alpine').inside {
-                sh 'mvn --version'
+    /* Requires the Docker Pipeline plugin to be installed */
+    docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
+                sh 'mvn -B'
             }
         }
         stage('Front-end') {
@@ -11,8 +12,8 @@
             }
         }
     }
-}*/
-pipeline {
+}
+/*pipeline {
     agent none
     stages {
         stage('Back-end') {
@@ -32,4 +33,4 @@ pipeline {
             }
         }
     }
-}
+}*/
