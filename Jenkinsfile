@@ -1,14 +1,19 @@
 node {
     docker.withServer('tcp://10.0.3.134:2375'){
-        stage('Back-end') {
-    /* Requires the Docker Pipeline plugin to be installed */
-    docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
+        docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
+            stage('Build') {
                 sh 'mvn -B -DskipTests clean package'
             }
-        }
-        stage('Front-end') {
-            docker.image('node:7-alpine').inside {
-                sh 'node --version'
+            stage('Test') {
+                sh 'mvn test'
+                post {
+                    always {
+                        junit 'target/surefire-reports/*.xml'
+                    }
+                }
+            }
+            stage('Deliver') {
+                sh './jenkins/scripts/deliver.sh' 
             }
         }
     }
