@@ -3,7 +3,7 @@ node {
         stage('Back-end') {
     /* Requires the Docker Pipeline plugin to be installed */
     docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
-                sh 'mvn -B'
+                sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Front-end') {
