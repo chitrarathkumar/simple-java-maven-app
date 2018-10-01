@@ -20,10 +20,10 @@
 }*/
 
 pipeline {
-    script {
-        docker.withServer('tcp://10.0.3.134:2375')
-    }
-    agent {
+    agent {   
+        script {
+            docker.withServer('tcp://10.0.3.134:2375')
+        }
         docker {
             image 'maven:3-alpine'
             args '-v /root/.m2:/root/.m2'
