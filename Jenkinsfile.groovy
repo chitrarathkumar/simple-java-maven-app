@@ -22,7 +22,7 @@
 pipeline {
     agent none
     stages {
-        stage('Build and Test') {
+        stage('Build test and deliver') {
             steps{
                 script {
                     docker.withServer('tcp://10.0.3.134:2375'){
@@ -34,14 +34,14 @@ pipeline {
                                 sh 'mvn test'
                                 junit 'target/surefire-reports/*.xml'
                             }
+                            stage('Deliver') { 
+                                steps {
+                                    sh './jenkins/scripts/deliver.sh' 
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
-        stage('Deliver') { 
-            steps {
-                sh './jenkins/scripts/deliver.sh' 
             }
         }
     }
