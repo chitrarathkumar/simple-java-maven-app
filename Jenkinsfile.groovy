@@ -22,24 +22,20 @@
 pipeline {
     agent none
     stages {
-        stage('Build') {
+        stage('Build and Test') {
             steps{
                 script {
                     docker.withServer('tcp://10.0.3.134:2375'){
                         docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
-                            sh 'mvn -B -DskipTests clean package'
+                            stage('Build'){
+                                sh 'mvn -B -DskipTests clean package'
+                            }
+                            stage('Test'){
+                                sh 'mvn test'
+                                junit 'target/surefire-reports/*.xml'
+                            }
                         }
                     }
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
