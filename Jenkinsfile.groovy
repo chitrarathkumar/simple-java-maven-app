@@ -72,14 +72,15 @@
 
 
 
-/*node {
+node {
     docker.withServer('tcp://10.0.3.134:2375'){
         stage('Build') {
+            mvn clean
         }
 
         stage('Test') {
             parallel dockerA: {
-                node('docker') {
+                node('master') {
                     checkout scm
                     try {
                         unstash 'app'
@@ -91,14 +92,15 @@
                 }
             },
             dockerB: {
-                node('docker') {
+                node('master') {
+                    echo 'second one'
                 }
             }
         }
     }
-}*/
+}
 
-pipeline {
+/*pipeline {
     agent any
     stages {
         stage('Non-Parallel Stage') {
@@ -148,4 +150,4 @@ pipeline {
             }
         }
     }
-}
+}*/
