@@ -74,27 +74,26 @@
 
 node {
     docker.withServer('tcp://10.0.3.134:2375'){
-        stage('Non-Parallel Stage') {
-            echo 'This stage will be executed first.'
+        stage('Build') {
+            /* .. snip .. */
         }
-        stage('Parallel Stage') {
-            parallel {
-                stage('Branch A') {
-                    label "for-branch-a"
-                    echo "On Branch A"
-                }
-                stage('Branch B') {
-                    label "for-branch-b"
-                    echo "On Branch B"
-                }
-                stage('Branch C') {
-                    label "for-branch-c"
-                    stage('Nested 1') { 
-                        echo "In stage Nested 1 within Branch C"
+
+        stage('Test') {
+            parallel linux: {
+                node('linux') {
+                    checkout scm
+                    try {
+                        unstash 'app'
+                        sh 'make check'
                     }
-                    stage('Nested 2') {
-                        echo "In stage Nested 2 within Branch C"
+                    finally {
+                        junit '**/target/*.xml'
                     }
+                }
+            },
+            windows: {
+                node('windows') {
+                    /* .. snip .. */
                 }
             }
         }
