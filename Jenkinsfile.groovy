@@ -79,8 +79,8 @@ node {
         }
 
         stage('Test') {
-            parallel linux: {
-                node('linux') {
+            parallel dockerA: {
+                node('docker') {
                     checkout scm
                     try {
                         unstash 'app'
@@ -91,8 +91,8 @@ node {
                     }
                 }
             },
-            windows: {
-                node('windows') {
+            dockerB: {
+                node('docker') {
                     /* .. snip .. */
                 }
             }
