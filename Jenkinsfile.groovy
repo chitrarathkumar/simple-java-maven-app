@@ -74,26 +74,27 @@
 
 node {
     docker.withServer('tcp://10.0.3.134:2375'){
-        stage('Build') {
-            mvn clean
-        }
-
-        stage('Test') {
-            parallel dockerA: {
-                node('master') {
-                    checkout scm
-                    try {
-                        unstash 'app'
-                        sh 'make check'
+        docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
+            stage('Build') {
+                sh 'mvn clean'
+            }
+            stage('Test') {
+                parallel dockerA: {
+                    node('master') {
+                        checkout scm
+                        try {
+                            unstash 'app'
+                            sh 'make check'
+                        }
+                        finally {
+                            junit '/target*.xml'
+                        }
                     }
-                    finally {
-                        junit '/target*.xml'
+                },
+                dockerB: {
+                    node('master') {
+                        echo 'second one'
                     }
-                }
-            },
-            dockerB: {
-                node('master') {
-                    echo 'second one'
                 }
             }
         }
