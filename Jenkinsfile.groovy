@@ -114,7 +114,7 @@ pipeline {
             parallel {
                 stage('Branch A') {
                     agent {
-                        label "for-branch-a"
+                        label "master"
                     }
                     steps {
                         echo "On Branch A"
@@ -122,7 +122,7 @@ pipeline {
                 }
                 stage('Branch B') {
                     agent {
-                        label "for-branch-b"
+                        label "master"
                     }
                     steps {
                         echo "On Branch B"
@@ -130,7 +130,7 @@ pipeline {
                 }
                 stage('Branch C') {
                     agent {
-                        label "for-branch-c"
+                        label "master"
                     }
                     stages {
                         stage('Nested 1') {
