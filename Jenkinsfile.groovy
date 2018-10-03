@@ -82,13 +82,13 @@ node {
                 parallel dockerA: {
                     node('master') {
                         echo 'first one'
-                        sh 'docker --version'
+                        sh 'docker run hello-world'
                     }
                 },
                 dockerB: {
                     node('master') {
                         echo 'second one'
-                        sh 'docker --version'
+                        sh 'docker run hello-world'
                     }
                 }
             }
