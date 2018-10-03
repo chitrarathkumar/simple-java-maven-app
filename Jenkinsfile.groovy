@@ -91,6 +91,7 @@ node {
                     stage('Branch B') {
                         label "for-branch-b"
                         echo "On Branch B"
+                    }
                     stage('Branch C') {
                             label "for-branch-c"
                         stages {
