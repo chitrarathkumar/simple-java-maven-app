@@ -72,7 +72,7 @@
 
 
 
-node {
+/*node {
     docker.withServer('tcp://10.0.3.134:2375'){
         docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
             stage('Build') {
@@ -94,10 +94,10 @@ node {
             }
         }
     }
-}
+}*/
 
-/*pipeline {
-    agent any
+pipeline {
+    agent docker
     stages {
         stage('Non-Parallel Stage') {
             steps {
