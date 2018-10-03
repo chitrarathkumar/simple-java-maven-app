@@ -72,11 +72,11 @@
 
 
 
-/*node {
+node {
     docker.withServer('tcp://10.0.3.134:2375'){
-        docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
+        //docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
             stage('Build') {
-                sh 'mvn -B -DskipTests clean package'
+                //sh 'mvn -B -DskipTests clean package'
             }
             stage('Test') {
                 parallel dockerA: {
@@ -92,11 +92,11 @@
                     }
                 }
             }
-        }
+        //}
     }
-}*/
+}
 
-pipeline {
+/*pipeline {
     agent {
         docker {
             image 'maven:3-alpine'
@@ -153,4 +153,4 @@ pipeline {
             }
         }
     }
-}
+}*/
