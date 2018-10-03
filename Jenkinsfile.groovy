@@ -121,6 +121,7 @@ pipeline {
                     }
                     steps {
                         echo "On Branch A"
+                        sh 'docker run hello-world'
                     }
                 }
                 stage('Branch B') {
@@ -129,6 +130,7 @@ pipeline {
                     }
                     steps {
                         echo "On Branch B"
+                        sh 'docker run hello-world'
                     }
                 }
                 stage('Branch C') {
