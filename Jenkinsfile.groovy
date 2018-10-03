@@ -81,14 +81,14 @@ node {
             stage('Test') {
                 parallel dockerA: {
                     node('master') {
-                        echo 'first'
-                        sh 'docker run hello-world'
+                        echo 'first one'
+                        sh 'docker --version'
                     }
                 },
                 dockerB: {
                     node('master') {
                         echo 'second one'
-                        sh 'docker run hello-world'
+                        sh 'docker --version'
                     }
                 }
             }
