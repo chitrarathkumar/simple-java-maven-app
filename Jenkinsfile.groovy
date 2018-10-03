@@ -81,19 +81,14 @@ node {
             stage('Test') {
                 parallel dockerA: {
                     node('master') {
-                        checkout scm
-                        try {
-                            unstash 'app'
-                            sh 'make check'
-                        }
-                        finally {
-                            junit '/target*.xml'
-                        }
+                        echo 'first'
+                        sh 'docker run hello-world'
                     }
                 },
                 dockerB: {
                     node('master') {
                         echo 'second one'
+                        sh 'docker run hello-world'
                     }
                 }
             }
