@@ -74,34 +74,30 @@
 
 node {
     docker.withServer('tcp://10.0.3.134:2375'){
-        stages {
-            stage('Non-Parallel Stage') {
-                echo 'This stage will be executed first.'
+        stage('Non-Parallel Stage') {
+            echo 'This stage will be executed first.'
+        }
+        stage('Parallel Stage') {
+            when {
+                branch 'master'
             }
-            stage('Parallel Stage') {
-                when {
-                    branch 'master'
+            failFast true
+            parallel {
+                stage('Branch A') {
+                    label "for-branch-a
+                    echo "On Branch A"
                 }
-                failFast true
-                parallel {
-                    stage('Branch A') {
-                        label "for-branch-a"
-                        echo "On Branch A"
+                stage('Branch B') {
+                    label "for-branch-b"
+                    echo "On Branch B"
+                }
+                stage('Branch C') {
+                    label "for-branch-c"
+                    stage('Nested 1') { 
+                        echo "In stage Nested 1 within Branch C"
                     }
-                    stage('Branch B') {
-                        label "for-branch-b"
-                        echo "On Branch B"
-                    }
-                    stage('Branch C') {
-                            label "for-branch-c"
-                        stages {
-                            stage('Nested 1') {
-                                echo "In stage Nested 1 within Branch C"
-                            }
-                            stage('Nested 2') {
-                                echo "In stage Nested 2 within Branch C"
-                            }
-                        }
+                    stage('Nested 2') {
+                        echo "In stage Nested 2 within Branch C"
                     }
                 }
             }
