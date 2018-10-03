@@ -78,10 +78,6 @@ node {
             echo 'This stage will be executed first.'
         }
         stage('Parallel Stage') {
-            when {
-                branch 'master'
-            }
-            failFast true
             parallel {
                 stage('Branch A') {
                     label "for-branch-a"
