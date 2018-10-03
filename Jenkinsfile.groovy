@@ -84,7 +84,7 @@ node {
             failFast true
             parallel {
                 stage('Branch A') {
-                    label "for-branch-a
+                    label "for-branch-a"
                     echo "On Branch A"
                 }
                 stage('Branch B') {
