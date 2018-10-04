@@ -83,12 +83,22 @@ node {
                     node('master') {
                         echo 'first one'
                         sh 'docker run hello-world'
+                        docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
+                            stage ('check') {
+                               sh 'mvn --version'
+                            }
+                        }
                     }
                 },
                 dockerB: {
                     node('master') {
                         echo 'second one'
                         sh 'docker run hello-world'
+                        docker.image('node:7-alpine').inside('-v $HOME/.m2:/root/.m2') {
+                            stage ('check') {
+                                sh 'node --version'
+                            }
+                        }
                     }
                 }
             }
