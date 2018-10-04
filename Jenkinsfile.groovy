@@ -83,6 +83,7 @@ node {
                     node('master') {
                         echo 'first one'
                         sh 'docker run hello-world'
+                        sh 'docker service create --replicas 10 --name helloworld alpine ping docker.com'
                         docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
                             stage ('check') {
                                sh 'mvn --version'
