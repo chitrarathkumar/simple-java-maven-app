@@ -1,4 +1,4 @@
-/*node {
+node {
     docker.withServer('tcp://10.0.3.134:2375'){
         docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
             stage('Build') {
@@ -17,7 +17,7 @@
             }
         }
     }
-}*/
+}
 
 /*pipeline {
     agent none
@@ -68,7 +68,7 @@
     }
 }*/
 
-pipeline {
+/*pipeline {
         agent {
              docker {
                 withServer 'tcp://10.0.3.134:2375'
@@ -98,7 +98,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
 
 
