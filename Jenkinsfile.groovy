@@ -71,10 +71,9 @@
 pipeline {
         agent {
              docker {
-                withServer('tcp://10.0.3.134:2375'){
-                    image 'maven:3-alpine'
-                    args '-v /root/.m2:/root/.m2'
-                }
+                withServer 'tcp://10.0.3.134:2375'
+                image 'maven:3-alpine'
+                args '-v /root/.m2:/root/.m2'
              }
         }
             stages {
