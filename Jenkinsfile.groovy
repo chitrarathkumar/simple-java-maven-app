@@ -22,9 +22,6 @@
 
 
 pipeline {
-        environment {
-            PATH = "$PATH:/usr/local/bin"
-        }
         agent {
              docker {
                 image 'maven:3-alpine'
@@ -35,7 +32,7 @@ pipeline {
                 stage('Build') {
                     steps {
                         sh 'mvn -B -DskipTests clean package'
-                        sh 'docker-compose --help'
+                        sh '/usr/local/bin/docker-compose --help'
                     }
                 }
                 stage('Test') {
