@@ -63,59 +63,59 @@ def generateBuildInfo() {
  * Properties for Jenkins Build
  */
 
-properties(
-        [
-                buildDiscarder(
-                        logRotator(artifactDaysToKeepStr: '',
-                                artifactNumToKeepStr: '',
-                                daysToKeepStr: '100',
-                                numToKeepStr: '100'
-                        )
-                ),
-                disableConcurrentBuilds(),
-                durabilityHint('MAX_SURVIVABILITY'),
-                disableResume(),
-                [
-                        $class      : 'CopyArtifactPermissionProperty',
-                        projectNames: '*'
-                ],
-                parameters(
-                        [
-                                booleanParam(
-                                        defaultValue: true,
-                                        description: 'Do u want to use mounted maven?',
-                                        name: 'MOUNT_MAVEN'
-                                ),
-                                string(
-                                        defaultValue: 'N/A',
-                                        description: 'To build a branch',
-                                        name: 'BUILD_BRANCH',
-                                        trim: true
-                                ),
-                                string(
-                                        defaultValue: 'N/A',
-                                        description: 'To build a tag',
-                                        name: 'USER_BUILD_TAG',
-                                        trim: true
-                                ),
-                                booleanParam(
-                                        defaultValue: true,
-                                        description: 'Need debug information from Maven',
-                                        name: 'MVN_DEBUG'
-                                ),
-                                booleanParam(
-                                        defaultValue: false,
-                                        description: 'Do u want to deploy the build into Nexus?',
-                                        name: 'NEXUS_DEPLOY'
-                                ),
-                                booleanParam(
-                                        defaultValue: true,
-                                        description: 'Do u want to use docker designer (with runtime license)?',
-                                        name: 'USE_DOCKER_DESIGNER'
-                                )
-                        ]
-                )
-        ])
+//properties(
+//        [
+//                buildDiscarder(
+//                        logRotator(artifactDaysToKeepStr: '',
+//                                artifactNumToKeepStr: '',
+//                                daysToKeepStr: '100',
+//                                numToKeepStr: '100'
+//                        )
+//                ),
+//                disableConcurrentBuilds(),
+//                durabilityHint('MAX_SURVIVABILITY'),
+//                disableResume(),
+//                [
+//                        $class      : 'CopyArtifactPermissionProperty',
+//                        projectNames: '*'
+//                ],
+//                parameters(
+//                        [
+//                                booleanParam(
+//                                        defaultValue: true,
+//                                        description: 'Do u want to use mounted maven?',
+//                                        name: 'MOUNT_MAVEN'
+//                                ),
+//                                string(
+//                                        defaultValue: 'N/A',
+//                                        description: 'To build a branch',
+//                                        name: 'BUILD_BRANCH',
+//                                        trim: true
+//                                ),
+//                                string(
+//                                        defaultValue: 'N/A',
+//                                        description: 'To build a tag',
+//                                        name: 'USER_BUILD_TAG',
+//                                        trim: true
+//                                ),
+//                                booleanParam(
+//                                        defaultValue: true,
+//                                        description: 'Need debug information from Maven',
+//                                        name: 'MVN_DEBUG'
+//                                ),
+//                                booleanParam(
+//                                        defaultValue: false,
+//                                        description: 'Do u want to deploy the build into Nexus?',
+//                                        name: 'NEXUS_DEPLOY'
+//                                ),
+//                                booleanParam(
+//                                        defaultValue: true,
+//                                        description: 'Do u want to use docker designer (with runtime license)?',
+//                                        name: 'USE_DOCKER_DESIGNER'
+//                                )
+//                        ]
+//                )
+//        ])
 
 /**
  * Build Configuration / Scripts
@@ -132,28 +132,28 @@ node {
     echo "env.NEXUS_DEPLOY${env.NEXUS_DEPLOY}"
 
 
-    if (env.USER_BUILD_TAG != "N/A")
-        varBranchName = "refs/tags/${env.USER_BUILD_TAG}"
-    else if (env.BUILD_BRANCH != "N/A")
-        varBranchName = "refs/heads/${env.BUILD_BRANCH}"
-    else if (env.gitlabSourceBranch != null && env.gitlabSourceBranch != "null")
-        varBranchName = "refs/heads/${env.gitlabSourceBranch}"
-    else
-        varBranchName = "refs/heads/master"
-    if (env.NEXUS_DEPLOY.toBoolean())
-        isDeployPhase=true
-    if (env.USE_DOCKER_DESIGNER.toBoolean()) {
-        argumentForDocker = '';
-    }
-    echo "Before exception"
-    try {
-        if (env.MOUNT_MAVEN.toBoolean()) {
-            argumentForDocker = "${argumentForDocker} -v /SSD1/Jenkins/.m2:/usr/share/.m2_old:rw,z"
-        }
-    } catch (java.lang.NullPointerException e) {
-        echo e;
-        argumentForDocker = "${argumentForDocker} -v /SSD1/Jenkins/.m2:/usr/share/.m2_old:rw,z"
-    }
+//    if (env.USER_BUILD_TAG != "N/A")
+//        varBranchName = "refs/tags/${env.USER_BUILD_TAG}"
+//    else if (env.BUILD_BRANCH != "N/A")
+//        varBranchName = "refs/heads/${env.BUILD_BRANCH}"
+//    else if (env.gitlabSourceBranch != null && env.gitlabSourceBranch != "null")
+//        varBranchName = "refs/heads/${env.gitlabSourceBranch}"
+//    else
+//        varBranchName = "refs/heads/master"
+//    if (env.NEXUS_DEPLOY.toBoolean())
+//        isDeployPhase=true
+//    if (env.USE_DOCKER_DESIGNER.toBoolean()) {
+//        argumentForDocker = '';
+//    }
+//    echo "Before exception"
+//    try {
+//        if (env.MOUNT_MAVEN.toBoolean()) {
+//            argumentForDocker = "${argumentForDocker} -v /SSD1/Jenkins/.m2:/usr/share/.m2_old:rw,z"
+//        }
+//    } catch (java.lang.NullPointerException e) {
+//        echo e;
+//        argumentForDocker = "${argumentForDocker} -v /SSD1/Jenkins/.m2:/usr/share/.m2_old:rw,z"
+//    }
 //    if (!env.MVN_DEBUG.toBoolean()) {
 //        buildScript = "${buildScript} "
 //        cleanScript = "${cleanScript} "
@@ -177,7 +177,7 @@ pipeline {
     agent {
         docker {
             image "maven-jdk-8-docker-image:98"
-            args "${argumentForDocker} --net docker-net-services"
+            args "-v /SSD1/Jenkins/.m2:/usr/share/.m2_old:rw,z --net docker-net-services"
         }
     }
     options {
