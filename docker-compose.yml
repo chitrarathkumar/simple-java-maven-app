@@ -1,0 +1,41 @@
+version: "3"
+services:
+  db:
+    build: db
+    ports:
+      - "9001:9001"
+    networks:
+      - docker-net-services
+  zookeeper:
+    build: kafka
+    ports:
+      - "2181:2181"
+    command: [sh, -c, "./wait-for-it.sh db:9001 --strict; zookeeper-server-start.sh ./config/zookeeper.properties"]
+    networks:
+      - docker-net-services
+  kafka:
+    build: kafka
+    ports:
+      - "9092:9092"
+    command: [sh, -c, "./wait-for-it.sh zookeeper:2181 --strict; kafka-server-start.sh ./config/server.properties"]
+    networks:
+      - docker-net-services
+  tomcat:
+    build: tomcat
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./tomcatlogs:/usr/local/tomcat/logs
+    command: [sh, -c, "./wait-for-it.sh kafka:9092 --strict; catalina.sh run"]
+    networks:
+      - docker-net-services
+  designer:
+    build: designer
+    volumes:
+      - ./testreport:/home/testreport
+    command: [sh, -c, "./wait-for-it.sh tomcat:8080 --strict; sleep 40; echo waited 40s; ./all-tests.sh; echo generated test report"]
+    networks:
+      - docker-net-services
+networks:
+  docker-net-services:
+    driver: bridge
