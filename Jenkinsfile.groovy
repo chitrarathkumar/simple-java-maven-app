@@ -165,7 +165,7 @@ node {
 //        packageScript = "${packageScript}        -X -Dorg.slf4j.simpleLogger.log.volante.runtime=trace"
 //        packageOnlyScript = "${packageOnlyScript}    -X -Dorg.slf4j.simpleLogger.log.volante.runtime=trace"
 //    }
-    echo argumentForDocker
+    //echo argumentForDocker
     sh 'docker-compose up --build -d'
     sh 'sleep 30'
     cleanWs()
